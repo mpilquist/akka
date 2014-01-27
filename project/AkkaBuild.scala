@@ -1057,8 +1057,7 @@ object AkkaBuild extends Build {
       OsgiKeys.privatePackage := Seq("akka.osgi.impl"),
       //akka-actor packages are not imported, as contained in the CP
       OsgiKeys.importPackage := (osgiOptionalImports map optionalResolution) ++ Seq("!sun.misc", scalaImport(),configImport(), "*"),
-      // FIXME #3839: Remove this when the proper bundle delegating class loader is in place
-      OsgiKeys.dynamicImportPackage := Seq("*")
+      OsgiKeys.dynamicImportPackage := Seq("akka.*")
      )
 
     val osgiDiningHakkersSampleApi = exports(Seq("akka.sample.osgi.api"))
@@ -1085,27 +1084,7 @@ object AkkaBuild extends Build {
 
     val zeroMQ = exports(Seq("akka.zeromq.*"), imports = Seq(protobufImport()) )
 
-    val osgiOptionalImports = Seq("akka.remote",
-      "akka.remote.transport.netty",
-      "akka.remote.security.provider",
-      "akka.remote.netty",
-      "akka.remote.routing",
-      "akka.remote.transport",
-      "akka.remote.serialization",
-      "akka.persistence.serialization",
-      "akka.cluster",
-      "akka.cluster.routing",
-      "akka.cluster.protobuf",
-      "akka.transactor",
-      "akka.agent",
-      "akka.dataflow",
-      "akka.actor.mailbox",
-      "akka.camel.internal",
-      "akka.camel.javaapi",
-      "akka.camel",
-      "akka.camel.internal.component",
-      "akka.zeromq",
-      "com.google.protobuf")
+    val osgiOptionalImports = Seq("com.google.protobuf")
 
     def exports(packages: Seq[String] = Seq(), imports: Seq[String] = Nil) = osgiSettings ++ Seq(
       OsgiKeys.importPackage := imports ++ defaultImports,
