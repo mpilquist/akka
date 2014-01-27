@@ -1056,9 +1056,7 @@ object AkkaBuild extends Build {
       OsgiKeys.exportPackage := Seq("akka*"), //exporting akka packages enforces bnd to aggregate akka-actor packages in the bundle
       OsgiKeys.privatePackage := Seq("akka.osgi.impl"),
       //akka-actor packages are not imported, as contained in the CP
-      OsgiKeys.importPackage := (osgiOptionalImports map optionalResolution) ++ Seq("!sun.misc", scalaImport(),configImport(), "*"),
-      // FIXME #3839: Remove this when the proper bundle delegating class loader is in place
-      OsgiKeys.dynamicImportPackage := Seq("*")
+      OsgiKeys.importPackage := (osgiOptionalImports map optionalResolution) ++ Seq("!sun.misc", scalaImport(),configImport(), "*")
      )
 
     val osgiDiningHakkersSampleApi = exports(Seq("akka.sample.osgi.api"))
@@ -1093,6 +1091,8 @@ object AkkaBuild extends Build {
       "akka.remote.transport",
       "akka.remote.serialization",
       "akka.persistence.serialization",
+      "akka.persistence.snapshot.local",
+      "akka.persistence.journal.leveldb",
       "akka.cluster",
       "akka.cluster.routing",
       "akka.cluster.protobuf",
@@ -1105,6 +1105,8 @@ object AkkaBuild extends Build {
       "akka.camel",
       "akka.camel.internal.component",
       "akka.zeromq",
+      "akka.event.slf4j",
+      "akka.testkit",
       "com.google.protobuf")
 
     def exports(packages: Seq[String] = Seq(), imports: Seq[String] = Nil) = osgiSettings ++ Seq(
